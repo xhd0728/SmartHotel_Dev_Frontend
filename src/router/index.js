@@ -1,6 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AboutView from '../views/AboutView.vue'
+
+import MainView from '../views/HomeView/MainView.vue'
+
+import CommentView from '../views/ProjectView/CommentView.vue'
+import CustomerView from '../views/ProjectView/CustomerView.vue'
+import OrderView from '../views/ProjectView/OrderView.vue'
+import RoomView from '../views/ProjectView/RoomView.vue'
+
+import AuthorView from '../views/SystemView/AuthorView.vue'
+import DatabaseView from '../views/SystemView/DatabaseView.vue'
+import ProjectView from '../views/SystemView/ProjectView.vue'
+import TechView from '../views/SystemView/TechView.vue'
 
 Vue.use(VueRouter)
 
@@ -13,11 +26,53 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    component: AboutView
+  },
+  {
+    path: '/main',
+    name: 'main',
+    component: MainView
+  },
+  {
+    path: '/comment',
+    name: 'comment',
+    component: CommentView
+  },
+  {
+    path: '/customer',
+    name: 'customer',
+    component: CustomerView
+  },
+  {
+    path: '/order',
+    name: 'order',
+    component: OrderView
+  },
+  {
+    path: '/room',
+    name: 'room',
+    component: RoomView
+  },
+  {
+    path: '/author',
+    name: 'author',
+    component: AuthorView
+  },
+  {
+    path: '/database',
+    name: 'database',
+    component: DatabaseView
+  },
+  {
+    path: '/project',
+    name: 'project',
+    component: ProjectView
+  },
+  {
+    path: '/tech',
+    name: 'tech',
+    component: TechView
+  },
 ]
 
 const router = new VueRouter({
