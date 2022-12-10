@@ -15,6 +15,8 @@ import DatabaseView from '../views/SystemView/DatabaseView.vue'
 import ProjectView from '../views/SystemView/ProjectView.vue'
 import TechView from '../views/SystemView/TechView.vue'
 
+import PersonView from '../views/PersonView/PersonView.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -73,6 +75,11 @@ const routes = [
     name: 'tech',
     component: TechView
   },
+  {
+    path: '/person',
+    name: 'person',
+    component: PersonView
+  }
 ]
 
 const router = new VueRouter({

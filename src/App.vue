@@ -1,10 +1,27 @@
 <template>
   <div id="app">
+    <el-header>
+      <div style="height:20px;display: flex;justify-content: space-between;">
+        <div style="font-size:20px;width: 800px;">
+          SmartHotel | 智慧酒店系统 | 哈尔滨工程大学 信息系统课程设计实践作业
+        </div>
+        <div style="font-size:20px;margin-left: 100px;">
+          <el-dropdown>
+            <span style="text-align:right">logined user: xhd0728</span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="gotoPersonView">个人中心</el-dropdown-item>
+              <el-dropdown-item @click.native="gotoProjectView">关于</el-dropdown-item>
+              <el-dropdown-item>注销</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+      </div>
+    </el-header>
     <el-container style="height: 700px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu :default-openeds="['1', '2', '3']">
           <el-submenu index="1">
-            <template slot="title"><i class="el-icon-message"></i>首页</template>
+            <template slot="title"><i class="el-icon-s-promotion"></i>首页</template>
             <el-menu-item index="1-1" @click="gotoMainView">仪表盘</el-menu-item>
           </el-submenu>
           <el-submenu index="2">
@@ -12,7 +29,7 @@
             <el-menu-item index="2-1" @click="gotoRoomView">房间管理</el-menu-item>
             <el-menu-item index="2-2" @click="gotoCustomerView">顾客管理</el-menu-item>
             <el-menu-item index="2-3" @click="gotoOrderView">订单管理</el-menu-item>
-            <el-menu-item index="2-3" @click="gotoCommentView">评价管理</el-menu-item>
+            <el-menu-item index="2-4" @click="gotoCommentView">评价管理</el-menu-item>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title"><i class="el-icon-setting"></i>项目信息</template>
@@ -24,16 +41,6 @@
         </el-menu>
       </el-aside>
       <el-container>
-        <el-header style="text-align: right; font-size: 12px">
-          <el-dropdown>
-            <span>logined user: xhd0728</span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>个人中心</el-dropdown-item>
-              <el-dropdown-item @click="gotoProjectView">关于</el-dropdown-item>
-              <el-dropdown-item>注销</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-header>
         <router-view></router-view>
       </el-container>
     </el-container>
@@ -67,26 +74,29 @@ export default {
     gotoCommentView() {
       this.$router.push('/comment')
     },
-    gotoCustomerView(){
+    gotoCustomerView() {
       this.$router.push('/customer')
     },
-    gotoOrderView(){
+    gotoOrderView() {
       this.$router.push('/order')
     },
-    gotoRoomView(){
+    gotoRoomView() {
       this.$router.push('/room')
     },
-    gotoAuthorView(){
+    gotoAuthorView() {
       this.$router.push('/author')
     },
-    gotoDatabaseView(){
+    gotoDatabaseView() {
       this.$router.push('/database')
     },
-    gotoProjectView(){
+    gotoProjectView() {
       this.$router.push('/project')
     },
-    gotoTechView(){
+    gotoTechView() {
       this.$router.push('/tech')
+    },
+    gotoPersonView() {
+      this.$router.push('/person')
     }
   }
 }
