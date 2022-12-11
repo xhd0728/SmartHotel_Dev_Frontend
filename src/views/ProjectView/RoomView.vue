@@ -52,9 +52,7 @@
                 <el-table-column prop="is_used" label="状态" width="60" header-align="center">
                 </el-table-column>
                 <el-table-column prop="opt" label="操作" width="100" header-align="center">
-                    <template>
-                        <el-button type="text">办理入住</el-button>
-                    </template>
+                    <el-button type="text">办理入住</el-button>
                 </el-table-column>
             </el-table>
         </el-col>
