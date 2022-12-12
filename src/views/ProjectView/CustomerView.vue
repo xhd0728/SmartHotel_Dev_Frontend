@@ -105,12 +105,12 @@ export default {
         return {
             customerData: [
                 {
-                    name: '辛海东',
+                    name: '郭鑫宇',
                     gender: '男',
                     age: '20',
-                    phone_num: '13904585027',
-                    email: 'xinhaidong0625@foxmail.com',
-                    level: '普通会员',
+                    phone_num: '13812341234',
+                    email: 'guoxiyu@guoxinyu.com',
+                    level: '超级会员',
                     last_time: '2022年12月1日',
                     create_time: '2022年6月1日',
                 },

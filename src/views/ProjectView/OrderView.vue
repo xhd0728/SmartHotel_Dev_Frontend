@@ -12,10 +12,6 @@
                     <el-form-item label="房间号" :label-width="formLabelWidth">
                         <el-input v-model="form.room_id" autocomplete="off" size="mini" style="width:200px"></el-input>
                     </el-form-item>
-                    <el-form-item label="原价" :label-width="formLabelWidth">
-                        <el-input v-model="form.value" autocomplete="off" size="mini" style="width:200px"
-                            :disabled="true"></el-input>
-                    </el-form-item>
                     <el-form-item label="实付款" :label-width="formLabelWidth">
                         <el-input v-model="form.pay" autocomplete="off" size="mini" style="width:200px"></el-input>
                     </el-form-item>

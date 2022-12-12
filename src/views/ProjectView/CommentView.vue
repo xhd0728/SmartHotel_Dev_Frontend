@@ -8,6 +8,9 @@
           <el-form-item label="手机" :label-width="formLabelWidth">
             <el-input v-model="form.phone_num" autocomplete="off" size="mini" style="width:130px"></el-input>
           </el-form-item>
+          <el-form-item label="房间号" :label-width="formLabelWidth">
+            <el-input v-model="form1.room_id" autocomplete="off" size="mini" style="width:130px"></el-input>
+          </el-form-item>
           <el-form-item label="打分" :label-width="formLabelWidth">
             <el-rate v-model="form.star" show-text style="margin-top:11px"></el-rate>
           </el-form-item>
@@ -24,18 +27,19 @@
     <div>
       <el-table :data="commentData" height="525" border stripe :cell-style="cellStyle"
         style="width: 1200px;margin-top: 30px;margin-left: 20px;">
-        <el-table-column prop="name" label="姓名" min-width="30" header-align="center"></el-table-column>
+        <el-table-column prop="name" label="姓名" min-width="20" header-align="center"></el-table-column>
         <el-table-column prop="gender" label="性别" min-width="20" header-align="center"></el-table-column>
         <el-table-column prop="age" label="年龄" min-width="20" header-align="center"></el-table-column>
-        <el-table-column prop="phone_num" label="手机" min-width="45" header-align="center"></el-table-column>
+        <el-table-column prop="phone_num" label="手机" min-width="30" header-align="center"></el-table-column>
         <el-table-column prop="level" label="等级" min-width="30" header-align="center"></el-table-column>
+        <el-table-column prop="room_id" label="房间号" min-width="20" header-align="center"></el-table-column>
         <el-table-column prop="star" label="评分" min-width="40" header-align="center">
           <template slot-scope="scope0">
             <el-rate disabled v-model="scope0.row.star" show-score text-color="#ff9900"
               score-template="{value}"></el-rate>
           </template>
         </el-table-column>
-        <el-table-column prop="create_time" label="评论时间" min-width="50" header-align="center"></el-table-column>
+        <el-table-column prop="create_time" label="评论时间" min-width="40" header-align="center"></el-table-column>
         <el-table-column prop="opt" label="操作" min-width="40" header-align="center">
           <template slot-scope="scope">
             <el-button type="info" icon="el-icon-more" circle @click="optTextDialog(scope.row)"></el-button>
@@ -48,6 +52,9 @@
         <el-form :model="form1">
           <el-form-item label="手机" :label-width="formLabelWidth">
             <el-input v-model="form1.phone_num" autocomplete="off" size="mini" style="width:130px"></el-input>
+          </el-form-item>
+          <el-form-item label="房间号" :label-width="formLabelWidth">
+            <el-input v-model="form1.room_id" autocomplete="off" size="mini" style="width:130px"></el-input>
           </el-form-item>
           <el-form-item label="打分" :label-width="formLabelWidth">
             <el-rate v-model="form1.star" show-text style="margin-top:11px"></el-rate>
@@ -84,54 +91,54 @@ export default {
           gender: '男',
           age: '20',
           phone_num: '13904585027',
-          email: 'xinhaidong0625@foxmail.com',
+          room_id: '101',
+          level: '普通会员',
+          star: '4',
+          text: 'xhdxhdxhd',
+          create_time: '2022年6月1日',
+        },
+        {
+          name: '吴方',
+          gender: '男',
+          age: '19',
+          phone_num: '13904585027',
+          room_id: '102',
+          level: '普通会员',
+          star: '3',
+          text: 'xhdxhdxhd',
+          create_time: '2022年6月1日',
+        },
+        {
+          name: '薛宇浩',
+          gender: '男',
+          age: '21',
+          phone_num: '13904585027',
+          room_id: '103',
+          level: '普通会员',
+          star: '5',
+          text: 'xhdxhdxhd',
+          create_time: '2022年6月1日',
+        },
+        {
+          name: '徐子涵',
+          gender: '男',
+          age: '20',
+          phone_num: '13904585027',
+          room_id: '104',
           level: '普通会员',
           star: '4.5',
           text: 'xhdxhdxhd',
           create_time: '2022年6月1日',
         },
         {
-          name: '辛海东',
+          name: '蔡佳起',
           gender: '男',
           age: '20',
           phone_num: '13904585027',
-          email: 'xinhaidong0625@foxmail.com',
+          room_id: '201',
           level: '普通会员',
-          star: '3.7',
-          text: 'herhrej3443',
-          create_time: '2022年6月1日',
-        },
-        {
-          name: '辛海东',
-          gender: '男',
-          age: '20',
-          phone_num: '13904585027',
-          email: 'xinhaidong0625@foxmail.com',
-          level: '普通会员',
-          star: '2.5',
-          text: 'hsdhfsahhs',
-          create_time: '2022年6月1日',
-        },
-        {
-          name: '辛海东',
-          gender: '男',
-          age: '20',
-          phone_num: '13904585027',
-          email: 'xinhaidong0625@foxmail.com',
-          level: '普通会员',
-          star: '4.5',
-          text: 'hshshhf',
-          create_time: '2022年6月1日',
-        },
-        {
-          name: '辛海东',
-          gender: '男',
-          age: '20',
-          phone_num: '13904585027',
-          email: 'xinhaidong0625@foxmail.com',
-          level: '普通会员',
-          star: '5',
-          text: '12121',
+          star: '4',
+          text: 'xhdxhdxhd',
           create_time: '2022年6月1日',
         },
       ],

@@ -26,9 +26,11 @@
                 <el-radio v-model="computer_radio" label="2">无电脑</el-radio>
             </div>
             <div style="display: flex;align-items: baseline;margin-top: 20px;">
-                <span style="margin-left:50px">价格选择:&nbsp;&nbsp;&nbsp;&nbsp;小于等于</span>
-                <el-input v-model="input" placeholder="价格" size="mini" style="width:80px;margin-left:10px"></el-input>
-                <span style="margin-left:10px">￥</span>
+                <span style="margin-left:50px">价格区间:</span>
+                <el-input v-model="input1" placeholder="价格" size="mini" style="width:70px;margin-left:10px"></el-input>
+                <span style="margin-left:10px">~</span>
+                <el-input v-model="input2" placeholder="价格" size="mini" style="width:70px;margin-left:10px"></el-input>
+                <span style="margin-left:10px">元</span>
             </div>
             <div style="text-align:center;margin-top: 30px;">
                 <el-button type="primary" round>搜索</el-button>
@@ -63,11 +65,13 @@
 export default {
     data() {
         return {
-            space_num: 1,
+            is_empty: '0',
+            space_num: '1',
             free_radio: '1',
             hotwater_radio: '1',
             computer_radio: '1',
-            input: '999',
+            input1: '0',
+            input2: '999',
             roomData: [
                 {
                     room_id: '101',
