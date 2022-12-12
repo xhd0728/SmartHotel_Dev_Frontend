@@ -2,14 +2,14 @@
   <div id="app">
     <el-header>
       <div style="height:20px;display: flex;justify-content: space-between;">
-        <div style="font-size:20px;width: 800px;">
+        <div style="font-size:20px;width: 800px;" @click="gotoMainView">
           SmartHotel | 智慧酒店系统 | 哈尔滨工程大学 信息系统课程设计实践作业
         </div>
         <div style="font-size:20px;margin-left: 100px;">
           <el-dropdown>
-            <span style="text-align:right">logined user: xhd0728</span>
+            <span style="text-align:right">logined user: {{ user }}</span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="gotoPersonView">个人中心</el-dropdown-item>
+              <el-dropdown-item @click.native="gotoMainView">首页</el-dropdown-item>
               <el-dropdown-item @click.native="gotoProjectView">关于</el-dropdown-item>
               <el-dropdown-item>注销</el-dropdown-item>
             </el-dropdown-menu>
@@ -62,14 +62,16 @@
 export default {
   name: 'App',
   data() {
-
+    return {
+      user: 'xhd0728'
+    }
   },
   mounted() {
 
   },
   methods: {
     gotoMainView() {
-      this.$router.push('/main')
+      this.$router.push('/')
     },
     gotoCommentView() {
       this.$router.push('/comment')
@@ -95,9 +97,6 @@ export default {
     gotoTechView() {
       this.$router.push('/tech')
     },
-    gotoPersonView() {
-      this.$router.push('/person')
-    }
   }
 }
 </script>

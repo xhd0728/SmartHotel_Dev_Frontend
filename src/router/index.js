@@ -9,31 +9,26 @@ import CommentView from '../views/ProjectView/CommentView.vue'
 import CustomerView from '../views/ProjectView/CustomerView.vue'
 import OrderView from '../views/ProjectView/OrderView.vue'
 import RoomView from '../views/ProjectView/RoomView.vue'
+import ReservationView from '../views/ProjectView/ReservationView.vue'
+import CheckoutView from '../views/ProjectView/CheckoutView.vue'
 
 import AuthorView from '../views/SystemView/AuthorView.vue'
 import DatabaseView from '../views/SystemView/DatabaseView.vue'
 import ProjectView from '../views/SystemView/ProjectView.vue'
 import TechView from '../views/SystemView/TechView.vue'
 
-import PersonView from '../views/PersonView/PersonView.vue'
-
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'main',
+    component: MainView
   },
   {
     path: '/about',
     name: 'about',
     component: AboutView
-  },
-  {
-    path: '/main',
-    name: 'main',
-    component: MainView
   },
   {
     path: '/comment',
@@ -76,9 +71,14 @@ const routes = [
     component: TechView
   },
   {
-    path: '/person',
-    name: 'person',
-    component: PersonView
+    path: '/reservation',
+    name: 'reservation',
+    component: ReservationView
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: CheckoutView
   }
 ]
 

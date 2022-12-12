@@ -62,8 +62,8 @@
                 </div>
                 <div>
                   <div style="margin-left:20px;margin-top:20px;">
-                    <el-button type="success" plain>办理入住</el-button>
-                    <el-button type="warning" plain>办理退房</el-button>
+                    <el-button type="success" plain @click="gotoReservationView">办理入住</el-button>
+                    <el-button type="warning" plain @click="gotoCheckoutView">办理退房</el-button>
                     <el-button type="primary" plain @click="gotoRoomView">房间管理</el-button>
                   </div>
                   <div style="margin-left:20px;margin-top:20px;">
@@ -116,6 +116,12 @@ export default {
     x_refresh() {
       location.reload()
     },
+    gotoReservationView() {
+      this.$router.push('/reservation')
+    },
+    gotoCheckoutView() {
+      this.$router.push('/checkout')
+    }
   }
 }
 </script>
