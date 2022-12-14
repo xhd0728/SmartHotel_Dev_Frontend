@@ -15,8 +15,7 @@
                     <el-input v-model="formLabelAlign.pay" style="width:300px"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('formLabelAlign')"
-                        style="margin-left:70px">办理</el-button>
+                    <el-button type="primary" @click="addOrder" style="margin-left:70px">办理</el-button>
                     <el-button @click="resetForm">重置</el-button>
                 </el-form-item>
             </el-form>
@@ -25,6 +24,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data() {
         return {
@@ -41,6 +41,28 @@ export default {
             this.formLabelAlign.room_id = ''
             this.formLabelAlign.pay = ''
             this.formLabelAlign.phone_num = ''
+        },
+        addOrder() {
+            axios.request({
+                method: 'POST',
+                url: 'api/order/order',
+                data: {
+                    room_id: this.formLabelAlign.room_id,
+                    phone_num: this.formLabelAlign.phone_num,
+                    pay: this.formLabelAlign.pay
+                }
+            }).then((res) => {
+                this.$message({
+                    message: res.data.detail,
+                    type: 'success'
+                }),
+                    this.$router.push('/')
+            }).catch((res) => {
+                this.$message({
+                    message: res.data.detail,
+                    type: 'error'
+                })
+            })
         }
     }
 }

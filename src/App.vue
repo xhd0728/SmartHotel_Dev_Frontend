@@ -7,11 +7,13 @@
         </div>
         <div style="font-size:20px;margin-left: 100px;">
           <el-dropdown>
-            <span style="text-align:right">logined user: {{ user }}</span>
+            <div style="text-align:right">
+              <span>logined user: {{ user }}</span>
+            </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="gotoMainView">首页</el-dropdown-item>
               <el-dropdown-item @click.native="gotoProjectView">关于</el-dropdown-item>
-              <el-dropdown-item>注销</el-dropdown-item>
+              <el-dropdown-item @click.native="gotoLogout">注销</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -33,7 +35,6 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title"><i class="el-icon-setting"></i>项目信息</template>
-            <el-menu-item index="3-1" @click="gotoAuthorView">作者信息</el-menu-item>
             <el-menu-item index="3-2" @click="gotoTechView">技术栈</el-menu-item>
             <el-menu-item index="3-3" @click="gotoDatabaseView">数据库结构</el-menu-item>
             <el-menu-item index="3-4" @click="gotoProjectView">项目简介</el-menu-item>
@@ -59,44 +60,54 @@
 </style>
 
 <script>
+
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
-      user: 'xhd0728'
-    }
+      user: ''
+    };
   },
   mounted() {
-
+    this.getUserName()
   },
   methods: {
     gotoMainView() {
-      this.$router.push('/')
+      this.$router.push("/");
     },
     gotoCommentView() {
-      this.$router.push('/comment')
+      this.$router.push("/comment");
     },
     gotoCustomerView() {
-      this.$router.push('/customer')
+      this.$router.push("/customer");
     },
     gotoOrderView() {
-      this.$router.push('/order')
+      this.$router.push("/order");
     },
     gotoRoomView() {
-      this.$router.push('/room')
-    },
-    gotoAuthorView() {
-      this.$router.push('/author')
+      this.$router.push("/room");
     },
     gotoDatabaseView() {
-      this.$router.push('/database')
+      this.$router.push("/database");
     },
     gotoProjectView() {
-      this.$router.push('/project')
+      this.$router.push("/project");
     },
     gotoTechView() {
-      this.$router.push('/tech')
+      this.$router.push("/tech");
     },
-  }
+    gotoLogin() {
+      this.$router.push("/login");
+    },
+    gotoLogout() {
+      this.$store.commit("$_removeStorage");
+      this.$store.commit("$_removeUsername");
+      location.reload()
+      this.$router.push("/login");
+    },
+    getUserName() {
+      this.user = localStorage.getItem('username');
+    }
+  },
 }
 </script>

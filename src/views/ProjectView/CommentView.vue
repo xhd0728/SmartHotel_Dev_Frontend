@@ -9,7 +9,7 @@
             <el-input v-model="form.phone_num" autocomplete="off" size="mini" style="width:130px"></el-input>
           </el-form-item>
           <el-form-item label="房间号" :label-width="formLabelWidth">
-            <el-input v-model="form1.room_id" autocomplete="off" size="mini" style="width:130px"></el-input>
+            <el-input v-model="form.room_id" autocomplete="off" size="mini" style="width:130px"></el-input>
           </el-form-item>
           <el-form-item label="打分" :label-width="formLabelWidth">
             <el-rate v-model="form.star" show-text style="margin-top:11px"></el-rate>
@@ -20,19 +20,19 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确定</el-button>
+          <el-button type="primary" @click="addComment">确定</el-button>
         </div>
       </el-dialog>
     </div>
     <div>
       <el-table :data="commentData" height="525" border stripe :cell-style="cellStyle"
         style="width: 1200px;margin-top: 30px;margin-left: 20px;">
-        <el-table-column prop="name" label="姓名" min-width="20" header-align="center"></el-table-column>
-        <el-table-column prop="gender" label="性别" min-width="20" header-align="center"></el-table-column>
-        <el-table-column prop="age" label="年龄" min-width="20" header-align="center"></el-table-column>
-        <el-table-column prop="phone_num" label="手机" min-width="30" header-align="center"></el-table-column>
-        <el-table-column prop="level" label="等级" min-width="30" header-align="center"></el-table-column>
-        <el-table-column prop="room_id" label="房间号" min-width="20" header-align="center"></el-table-column>
+        <el-table-column prop="customer.name" label="姓名" min-width="20" header-align="center"></el-table-column>
+        <el-table-column prop="customer.gender" label="性别" min-width="20" header-align="center"></el-table-column>
+        <el-table-column prop="customer.age" label="年龄" min-width="20" header-align="center"></el-table-column>
+        <el-table-column prop="customer.phone_num" label="手机" min-width="30" header-align="center"></el-table-column>
+        <el-table-column prop="customer.level.name" label="等级" min-width="30" header-align="center"></el-table-column>
+        <el-table-column prop="room.room_id" label="房间号" min-width="20" header-align="center"></el-table-column>
         <el-table-column prop="star" label="评分" min-width="40" header-align="center">
           <template slot-scope="scope0">
             <el-rate disabled v-model="scope0.row.star" show-score text-color="#ff9900"
@@ -44,7 +44,7 @@
           <template slot-scope="scope">
             <el-button type="info" icon="el-icon-more" circle @click="optTextDialog(scope.row)"></el-button>
             <el-button type="primary" icon="el-icon-edit" circle @click="optEditDialog(scope.row)"></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle @click="open"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle @click="open(scope.row)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -65,7 +65,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible1 = false">取消</el-button>
-          <el-button type="primary" @click="dialogFormVisible1 = false">确定</el-button>
+          <el-button type="primary" @click="modifyComment">确定</el-button>
         </div>
       </el-dialog>
       <el-dialog title="查看评论内容" :visible.sync="dialogFormVisible2" width="30%">
@@ -82,82 +82,33 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      commentData: [
-        {
-          name: '辛海东',
-          gender: '男',
-          age: '20',
-          phone_num: '13904585027',
-          room_id: '101',
-          level: '普通会员',
-          star: '4',
-          text: 'xhdxhdxhd',
-          create_time: '2022年6月1日',
-        },
-        {
-          name: '吴方',
-          gender: '男',
-          age: '19',
-          phone_num: '13904585027',
-          room_id: '102',
-          level: '普通会员',
-          star: '3',
-          text: 'xhdxhdxhd',
-          create_time: '2022年6月1日',
-        },
-        {
-          name: '薛宇浩',
-          gender: '男',
-          age: '21',
-          phone_num: '13904585027',
-          room_id: '103',
-          level: '普通会员',
-          star: '5',
-          text: 'xhdxhdxhd',
-          create_time: '2022年6月1日',
-        },
-        {
-          name: '徐子涵',
-          gender: '男',
-          age: '20',
-          phone_num: '13904585027',
-          room_id: '104',
-          level: '普通会员',
-          star: '4.5',
-          text: 'xhdxhdxhd',
-          create_time: '2022年6月1日',
-        },
-        {
-          name: '蔡佳起',
-          gender: '男',
-          age: '20',
-          phone_num: '13904585027',
-          room_id: '201',
-          level: '普通会员',
-          star: '4',
-          text: 'xhdxhdxhd',
-          create_time: '2022年6月1日',
-        },
-      ],
+      commentData: [],
       dialogFormVisible: false,
       dialogFormVisible1: false,
       dialogFormVisible2: false,
       form: {
         phone_num: '',
+        room_id: '',
         text: '',
         star: '3'
       },
       form1: {
         phone_num: '',
         text: '',
-        star: '3'
+        room_id: '',
+        star: '3',
+        cid: ''
       },
       textarea1: '',
       formLabelWidth: '100px'
     }
+  },
+  mounted() {
+    this.getCommentData()
   },
   methods: {
     cellStyle() {
@@ -166,35 +117,89 @@ export default {
     x_refresh() {
       location.reload()
     },
-    open() {
+    open(row) {
       this.$confirm('是否确认删除该顾客？', '确认信息', {
         distinguishCancelAndClose: true,
         confirmButtonText: '确认',
         cancelButtonText: '取消',
         type: 'warning'
-      })
-        .then(() => {
+      }).then(() => {
+        axios.request({
+          method: 'DELETE',
+          url: 'api/comment/comment',
+          data: {
+            cid: row.cid
+          }
+        }).then((res) => {
           this.$message({
-            type: 'success',
-            message: '删除成功'
-          });
-        })
-        .catch(action => {
-          this.$message({
-            type: 'info',
-            message: '取消'
+            message: res.data.detail,
+            type: 'success'
           })
-        });
+        })
+      }).catch(action => {
+        this.$message({
+          type: 'info',
+          message: '取消'
+        })
+      });
     },
     optEditDialog(row) {
-      this.form1.phone_num = row.phone_num
+      console.log(row)
+      this.form1.phone_num = row.customer.phone_num
+      this.form1.room_id = row.room.room_id
       this.form1.star = row.star
       this.form1.text = row.text
+      this.form1.cid = row.cid
       this.dialogFormVisible1 = true
     },
     optTextDialog(row) {
       this.textarea1 = row.text
       this.dialogFormVisible2 = true
+    },
+    getCommentData() {
+      axios.request({
+        method: 'GET',
+        url: 'api/comment/comments'
+      }).then((res) => {
+        this.commentData = res.data
+      })
+    },
+    addComment() {
+      axios.request({
+        method: 'POST',
+        url: 'api/comment/comment',
+        data: {
+          phone_num: this.form.phone_num,
+          room_id: this.form.room_id,
+          text: this.form.text,
+          star: this.form.star
+        }
+      }).then((res) => {
+        this.dialogFormVisible = false
+        this.$message({
+          message: res.data.detail,
+          type: 'success'
+        })
+      })
+    },
+    modifyComment() {
+      axios.request({
+        method: 'POST',
+        url: 'api/comment/comment',
+        data: {
+          cid: this.form1.cid,
+          phone_num: this.form1.phone_num,
+          room_id: this.form1.room_id,
+          text: this.form1.text,
+          star: this.form1.star
+        }
+      }).then((res) => {
+        this.dialogFormVisible1 = false
+        this.$message({
+          message: res.data.detail,
+          type: 'success'
+        })
+      })
     }
   }
 }

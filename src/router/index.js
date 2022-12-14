@@ -10,7 +10,6 @@ import RoomView from '../views/ProjectView/RoomView.vue'
 import ReservationView from '../views/ProjectView/ReservationView.vue'
 import CheckoutView from '../views/ProjectView/CheckoutView.vue'
 
-import AuthorView from '../views/SystemView/AuthorView.vue'
 import DatabaseView from '../views/SystemView/DatabaseView.vue'
 import ProjectView from '../views/SystemView/ProjectView.vue'
 import TechView from '../views/SystemView/TechView.vue'
@@ -49,11 +48,6 @@ const router = new Router({
       path: '/room',
       name: 'room',
       component: RoomView
-    },
-    {
-      path: '/author',
-      name: 'author',
-      component: AuthorView
     },
     {
       path: '/database',

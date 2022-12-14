@@ -6,23 +6,58 @@ import './plugins/element.js'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import axios from 'axios'
 
-import echarts from 'echarts'
+import globalAPI from '../globalAPI'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-Vue.prototype.$echarts = echarts
+Vue.prototype.axios = axios
+Vue.prototype.global = globalAPI
+axios.defaults.baseURL = globalAPI.baseURL
 
-// 添加请求拦截器，在请求头中加token
-// axios.interceptors.request.use(config => {
-//   if (localStorage.getItem('Authorization')) {
-//     config.headers.Authorization = localStorage.getItem('Authorization');
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(m => m.meta.requireAuth)) {
+//     if (window.localStorage.token && window.localStorage.isLogin === '1') {
+//       next()
+//     } else if (to.path !== '/login') {
+//       let token = window.localStorage.token;
+//       if (token === 'null' || token === '' || token === undefined) {
+//         next({ path: '/login' })
+//       }
+//     } else {
+//       next()
+//     }
+//   } else {
+//     next()
 //   }
-//   return config;
-// },
-//   error => {
-//     return Promise.reject(error);
-//   });
+// })
+
+axios.interceptors.request.use((config) => {
+  if (localStorage.getItem('token')) {
+    config.headers.token = localStorage.getItem('token')
+  }
+  return config;
+})
+
+axios.interceptors.response.use((res) => {
+  return res;
+}, (err) => {
+  if (err.response.status == 401) {
+    localStorage.removeItem('token')
+    ElementUI.Message({
+      message: err.response.data.detail,
+      type: 'error'
+    })
+    router.push('/login')
+  } else if (err.response.status == 400) {
+    ElementUI.Message({
+      message: err.response.data.detail,
+      type: 'error'
+    })
+    router.push('/login')
+  }
+})
 
 new Vue({
   router,

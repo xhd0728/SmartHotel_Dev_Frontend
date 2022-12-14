@@ -15,9 +15,12 @@
                     <el-progress type="dashboard" :percentage="percentage" :color="colors"></el-progress>
                     <div style="text-align:center">入住情况</div>
                   </div>
-                  <div style="text-align:center;width:200px;margin-left: 10px;vertical-align: middle;">
-                    <div style="margin-top:40px;margin-bottom:10px">入住: 200 间</div>
-                    <div style="margin-top:10px;margin-bottom:10px">空闲: 300 间</div>
+                  <div style="text-align:left;width:200px;margin-left: 50px;vertical-align: middle;">
+                    <div style="margin-top:40px;margin-bottom:10px"><i class="el-icon-s-home"></i>入住: {{ total_room -
+                        free_room
+                    }} 间</div>
+                    <div style="margin-top:10px;margin-bottom:10px"><i class="el-icon-s-home"></i>空闲: {{ free_room }} 间
+                    </div>
                   </div>
                 </div>
               </el-card>
@@ -31,8 +34,8 @@
                   <el-button style="float: right; padding: 3px 0" type="text">订单管理</el-button>
                 </div>
                 <div style="font-size:20px;margin-top: 20px;margin-left: 20px;">
-                  <div><i class="el-icon-s-data"></i> 今日营收: 328.00</div>
-                  <div style="margin-top:10px"><i class="el-icon-s-data"></i> 年度营收: 648.00</div>
+                  <div><i class="el-icon-s-data"></i> 年度营收: {{ income_total.toFixed(2) }} 元</div>
+                  <div style="margin-top:10px"><i class="el-icon-s-data"></i> 订单总数: {{ order_total }}</div>
                 </div>
               </el-card>
             </div>
@@ -43,12 +46,18 @@
             <div>
               <el-card class="box-card">
                 <div slot="header" class="clearfix">
-                  <span>排班情况</span>
+                  <span>注册情况</span>
                   <el-button style="float: right; padding: 3px 0" type="text" @click="x_refresh">刷新</el-button>
                 </div>
                 <div style="font-size:20px;margin-top: 20px;margin-left: 20px;">
-                  <div>今日值班: xhd0728</div>
-                  <div style="margin-top:10px">员工总数: 50</div>
+                  <div><i class="el-icon-user"></i>会员总数: {{ customer_total }}</div>
+                  <div style="display:flex">
+                    <div style="margin-top:10px"><i class="el-icon-sugar"></i>好评: {{ comment_good }}</div>
+                    <div style="margin-top:10px;margin-left:20px"><i class="el-icon-sugar"></i>中评: {{ comment_medium }}
+                    </div>
+                    <div style="margin-top:10px;margin-left: 20px;"><i class="el-icon-sugar"></i>差评: {{ comment_bad }}
+                    </div>
+                  </div>
                 </div>
               </el-card>
             </div>
@@ -83,24 +92,35 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 export default {
   data() {
     return {
-      percentage: 35,
       colors: [
         { color: '#f56c6c', percentage: 20 },
         { color: '#e6a23c', percentage: 40 },
         { color: '#5cb87a', percentage: 60 },
         { color: '#1989fa', percentage: 80 },
         { color: '#6f7ad3', percentage: 100 }
-      ]
+      ],
+      free_room: '10',
+      total_room: '100',
+      percentage: '30',
+      customer_total: '100',
+      comment_good: '20',
+      comment_medium: '15',
+      comment_bad: '5',
+      income_total: '648.00',
+      order_total: '10',
     };
   },
+  mounted() {
+    this.getRoomStatus()
+    this.getOrderStatus()
+    this.getCustomerStatus()
+    this.getCommentStatus()
+  },
   methods: {
-    format(percentage) {
-      return percentage === 100 ? '满' : `${percentage}%`;
-    },
     gotoRoomView() {
       this.$router.push('/room')
     },
@@ -121,6 +141,43 @@ export default {
     },
     gotoCheckoutView() {
       this.$router.push('/checkout')
+    },
+    getRoomStatus() {
+      axios.request({
+        method: 'GET',
+        url: 'api/room/status',
+      }).then((res) => {
+        this.free_room = res.data.free_room
+        this.total_room = res.data.total_room
+        this.percentage = ((this.total_room - this.free_room) / this.total_room * 100).toFixed(2)
+      })
+    },
+    getOrderStatus() {
+      axios.request({
+        method: 'GET',
+        url: 'api/order/status'
+      }).then((res) => {
+        this.order_total = res.data.order_total
+        this.income_total = res.data.income_total
+      })
+    },
+    getCustomerStatus() {
+      axios.request({
+        method: 'GET',
+        url: 'api/customer/status'
+      }).then((res) => {
+        this.customer_total = res.data.customer_count
+      })
+    },
+    getCommentStatus() {
+      axios.request({
+        method: 'GET',
+        url: 'api/comment/status'
+      }).then((res) => {
+        this.comment_good = res.data.comment_good
+        this.comment_medium = res.data.comment_medium
+        this.comment_bad = res.data.comment_bad
+      })
     }
   }
 }
@@ -129,10 +186,6 @@ export default {
 <style>
 .el-row {
   margin-bottom: 20px;
-
-  /* &:last-child {
-    margin-bottom: 0;
-  } */
 }
 
 .el-col {

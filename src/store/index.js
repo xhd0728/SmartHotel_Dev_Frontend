@@ -3,24 +3,34 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
-  state: {
-    // 存储token
-    Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
-  },
+const state = {
+  isLogin: '0',
+  ser: null,
+  token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
+};
+export default new Vuex.Store({
+  state,
   getters: {
-  },
-  mutations: {
-    // 修改token，并将token存入localStorage
-    changeLogin(state, user) {
-      state.Authorization = user.Authorization;
-      localStorage.setItem('Authorization', user.Authorization);
+    getStorage(state) {
+      if (!state.token) {
+        state.token = JSON.parse(localStorage.getItem(key))
+      }
+      return state.token
     }
   },
-  actions: {
-  },
-  modules: {
+  mutations: {
+    $_setToken(state, value) {
+      state.token = value;
+      localStorage.setItem('token', value);
+    },
+    $_removeStorage(state, value) {
+      localStorage.removeItem('token');
+    },
+    $_setUsername(state, value) {
+      localStorage.setItem('username', value);
+    },
+    $_removeUsername(state, value) {
+      localStorage.removeItem('username')
+    }
   }
 })
-
-export default store;
